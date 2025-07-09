@@ -6,6 +6,7 @@
     "devDependencies": {
         "@eslint/js": "~9.17",
         "@faker-js/faker": "^9.9.0",
+        "@types/bcrypt": "^5.0.2",
         "@types/bcryptjs": "^2.4.6",
         "@types/cookie-parser": "^1.4.9",
         "@types/dotenv": "^6.1.1",
@@ -50,6 +51,7 @@
     "author": "Shreyash",
     "license": "ISC",
     "dependencies": {
+        "bcrypt": "^6.0.0",
         "bcryptjs": "^3.0.2",
         "cookie-parser": "^1.4.7",
         "dotenv": "^17.0.0",

@@ -13,3 +13,7 @@ export const RegistrationSchema = LoginSchema.extend({
 export type RegisterBody = zod.infer<typeof RegistrationSchema>;
 
 export type LoginBody = zod.infer<typeof LoginSchema>;
+
+export interface User extends RegisterBody {
+    id?: string;
+}
