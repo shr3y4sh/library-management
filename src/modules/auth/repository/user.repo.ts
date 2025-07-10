@@ -1,24 +1,13 @@
-import UserModel, { M_USER } from '../model/user.model.js';
+import { M_USER } from '../model/user.model.js';
 import { User } from '../types.js';
+import { MongooseRepoImpl } from './mongoose.repo.js';
 
-export async function createUser(
-    userData: User,
-    role: 'USER',
-): Promise<M_USER> {
-    const { firstName, lastName, email, password } = userData;
+export interface UserRepository {
+    createUser: (userData: User, role: 'USER') => Promise<M_USER>;
 
-
-    const userDb = await UserModel.create({
-        firstName,
-        lastName,
-        email,
-        passwordHash: password,
-        role,
-    });
-
-    return userDb;
+    findByEmail: (email: string) => Promise<M_USER>;
 }
 
-export async function findByEmail(email:string): Promise<M_USER> {
-    return await UserModel.findOne({email});
-}
+const userRepo: UserRepository = new MongooseRepoImpl();
+
+export default userRepo;

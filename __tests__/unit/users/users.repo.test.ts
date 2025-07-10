@@ -1,6 +1,6 @@
 import '../../setup.js';
 import { describe, expect, it } from 'vitest';
-import { createUser } from '../../../src/modules/auth/repository/user.repo.js';
+import UserRepo from '../../../src/modules/auth/repository/user.repo.js';
 import {
     createUserDoc,
     createUserObject,
@@ -10,7 +10,7 @@ describe('user repository tests', () => {
     const { firstName, lastName, email, password } = createUserObject();
 
     it('should create a user', async () => {
-        const response = await createUser(
+        const response = await UserRepo.createUser(
             { firstName, lastName, email, password },
             'USER',
         );
@@ -27,7 +27,7 @@ describe('user repository tests', () => {
             const { firstName, lastName, email, passwordHash } =
                 createUserDoc();
             resultList.push(
-                await createUser(
+                await UserRepo.createUser(
                     { firstName, lastName, email, password: passwordHash },
                     'USER',
                 ),

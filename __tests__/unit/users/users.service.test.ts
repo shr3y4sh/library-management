@@ -1,7 +1,7 @@
 import { beforeEach, expect, it } from 'vitest';
 import { describe, vi } from 'vitest';
 import * as Encrypt from '../../../src/utilities/encrypt.util.js';
-import * as UserRepo from '../../../src/modules/auth/repository/user.repo.js';
+import UserRepo from '../../../src/modules/auth/repository/user.repo.js';
 import { createUserDoc } from '../../factories/user.factory.js';
 import { userRegister } from '../../../src/modules/auth/services/user.service.js';
 
@@ -27,7 +27,7 @@ describe('for testing userServices', () => {
             password: passwordHash,
         });
 
-        console.log(user)
+        console.log(user);
         expect(user).toMatchObject({
             id: _id,
             email,
