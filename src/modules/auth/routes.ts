@@ -1,13 +1,14 @@
 import express from 'express';
-import { registerBodyValidation } from '../../middlewares/auth.middlewares.js';
-import { register } from './controller.js';
+import {
+    loginBodyValidation,
+    registerBodyValidation,
+} from '../../middlewares/auth.middlewares.js';
+import { login, register } from './controller.js';
 
 const router = express.Router();
 
-router.post(
-    '/register',
-    registerBodyValidation,
-    register
-);
+router.post('/register', registerBodyValidation, register);
+
+router.post('/login', loginBodyValidation, login);
 
 export default router;
