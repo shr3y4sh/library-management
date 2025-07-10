@@ -1,13 +1,13 @@
-import '../../setup.test.js';
+import '../../setup.js';
 import { describe, expect, it } from 'vitest';
 import { createUser } from '../../../src/modules/auth/repository/user.repo.js';
-import { faker } from '@faker-js/faker';
+import {
+    createUserDoc,
+    createUserObject,
+} from '../../factories/user.factory.js';
 
 describe('user repository tests', () => {
-    let firstName = faker.person.firstName();
-    let lastName = faker.person.lastName();
-    let email = faker.internet.email({ firstName, lastName });
-    let password = faker.internet.password({ length: 8, memorable: true });
+    const { firstName, lastName, email, password } = createUserObject();
 
     it('should create a user', async () => {
         const response = await createUser(
@@ -24,13 +24,11 @@ describe('user repository tests', () => {
         const resultList = [];
 
         for (let i = 0; i < 5; i++) {
-            firstName = faker.person.firstName();
-            lastName = faker.person.lastName();
-            email = faker.internet.email({ firstName, lastName });
-            password = faker.internet.password({ length: 8, memorable: true });
+            const { firstName, lastName, email, passwordHash } =
+                createUserDoc();
             resultList.push(
                 await createUser(
-                    { firstName, lastName, email, password },
+                    { firstName, lastName, email, password: passwordHash },
                     'USER',
                 ),
             );

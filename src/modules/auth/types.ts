@@ -2,7 +2,7 @@ import zod from 'zod/v4';
 
 export const LoginSchema = zod.object({
     email: zod.email(),
-    password: zod.string(),
+    password: zod.string().min(6),
 });
 
 export const RegistrationSchema = LoginSchema.extend({
