@@ -7,7 +7,9 @@ export default class MongooseDatabase implements Datasource {
     };
     connect = async (): Promise<void> => {
         const mongodbURI = process.env.DATABASE_URI;
-        await mongoose.connect(mongodbURI);
+        await mongoose.connect(mongodbURI, {
+            dbName: 'library',
+        });
     };
     disconnect = async (): Promise<void> => {
         await mongoose.disconnect();
