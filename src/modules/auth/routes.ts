@@ -8,6 +8,7 @@ import { login, register } from './controller.js';
 const router = express.Router();
 
 router.post('/register', registerBodyValidation, register);
+// router.post('/register', register);
 
 router.post('/login', loginBodyValidation, login);
 

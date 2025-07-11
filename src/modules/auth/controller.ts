@@ -13,7 +13,6 @@ export async function register(
     res: Response,
 ): Promise<void> {
     const userData = req.body;
-
     try {
         const user = await userRegister(userData);
 
@@ -27,7 +26,9 @@ export async function register(
             userId: user.id,
             accessToken,
         });
+        return;
     } catch (err) {
+        res.clearCookie('refreshToken');
         if (err instanceof MongooseError) {
             res.status(409).json({ message: `Conflict Error: ${err.message}` });
             return;
@@ -56,7 +57,9 @@ export async function login(
             userId: user.id,
             accessToken,
         });
+        return;
     } catch (err) {
+        res.clearCookie('refreshToken');
         if (
             err instanceof Error.DocumentNotFoundError ||
             err instanceof Error.ValidationError
