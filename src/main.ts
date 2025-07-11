@@ -1,7 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
-// import helmet from 'helmet';
 // import cors from 'cors';
 import authRouter from './modules/auth/routes.js';
 import { logRequests } from './middlewares/loggers.js';

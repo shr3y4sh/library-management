@@ -48,6 +48,7 @@
         "prettier": "prettier \"{src,__tests__}/**/*.{ts,mts}\" --config .prettierrc --write",
         "prettier:check": "prettier \"{src,__tests__}/**/*.{ts,mts}\" --config .prettierrc --check",
         "test": "vitest run __tests__",
+        "test:unit": "vitest run __tests__/unit",
         "test:watch": "vitest watch __tests__",
         "test:coverage": "vitest run unit --config __tests__/vitest.config.ts --coverage.enabled --coverage.all"
     },
@@ -57,7 +58,6 @@
         "bcrypt": "^6.0.0",
         "bcryptjs": "^3.0.2",
         "cookie-parser": "^1.4.7",
-        "cors": "^2.8.5",
         "dotenv": "^17.0.0",
         "express": "^5.1.0",
         "helmet": "^8.1.0",
