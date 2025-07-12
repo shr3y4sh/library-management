@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { LoginBody, RegisterBody } from './types.js';
 import { Error, MongooseError } from 'mongoose';
-import { userLogin, userRegister } from './services/user.service.js';
+import {
+    getUserData,
+    userLogin,
+    userRegister,
+} from './services/user.service.js';
 import {
     generateAccToken,
     generateRefToken,
@@ -16,11 +20,11 @@ export async function register(
     try {
         const user = await userRegister(userData);
 
-        const refreshToken = generateRefToken(user.email, user.id);
+        const refreshToken = generateRefToken(user.email, user.id, user.role);
 
         res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_OPTIONS);
 
-        const accessToken = generateAccToken(user.email, user.id);
+        const accessToken = generateAccToken(user.email, user.id, user.role);
 
         res.status(201).json({
             userId: user.id,
@@ -47,11 +51,11 @@ export async function login(
 
     try {
         const user = await userLogin({ email, password });
-        const refreshToken = generateRefToken(user.email, user.id);
+        const refreshToken = generateRefToken(user.email, user.id, 'USER');
 
         res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_OPTIONS);
 
-        const accessToken = generateAccToken(user.email, user.id);
+        const accessToken = generateAccToken(user.email, user.id, 'USER');
 
         res.status(201).json({
             userId: user.id,
@@ -70,5 +74,40 @@ export async function login(
             console.log(err);
             res.sendStatus(500);
         }
+    }
+}
+export async function logout(
+    _req: Request<unknown, unknown, LoginBody>,
+    res: Response,
+): Promise<void> {
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: true,
+    });
+
+    res.status(200).json({ message: 'Logout successfull' });
+}
+
+export async function userProfile(req: Request, res: Response): Promise<void> {
+    try {
+        const { id } = req.user;
+        // console.log(id);
+        const user = await getUserData(id);
+
+        if (!user) {
+            throw new MongooseError('Not found');
+        }
+
+        res.status(200).json(user);
+        return;
+    } catch (err) {
+        console.log(err);
+        if (err instanceof MongooseError) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+
+        res.status(500).json({ message: 'Unknown error' });
     }
 }

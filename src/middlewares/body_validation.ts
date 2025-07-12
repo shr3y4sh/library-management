@@ -10,7 +10,6 @@ export function registerBodyValidation(
         const result = RegistrationSchema.safeParse(req.body);
 
         if (!result.success) {
-            res.clearCookie('refreshToken');
             console.log('registration invalid');
             res.status(400).json({ message: 'Invalid request data' });
             return;
@@ -32,7 +31,6 @@ export function loginBodyValidation(
     const result = LoginSchema.safeParse(req.body);
 
     if (!result.success) {
-        res.clearCookie('refreshToken');
         console.log('login invalid');
         res.status(400).json({ message: 'Invalid request data' });
         return;

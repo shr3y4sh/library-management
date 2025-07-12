@@ -27,6 +27,7 @@ export async function userRegister(userData: RegisterBody): Promise<User> {
         lastName: newUser.lastName,
         email: newUser.email,
         id: newUser._id.toString(),
+        role: newUser.role,
         password: null,
     };
 }
@@ -51,6 +52,20 @@ export async function userLogin(userData: LoginBody): Promise<User> {
         lastName: user.lastName,
         email: user.email,
         id: user._id.toString(),
+        role: user.role,
+        password: null,
+    };
+}
+
+export async function getUserData(id: string): Promise<User> {
+    const user = await UserRepo.findById(id);
+
+    return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        id: user._id.toString(),
+        role: user.role,
         password: null,
     };
 }

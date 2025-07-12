@@ -1,0 +1,75 @@
+
+# API Documentation
+
+api:
+  v1:
+
+    - auth: # headers Authorization = 'Bearer <accessToken>'
+      - login:
+          path: '/auth/login'
+          method: POST
+          request:
+            body: 
+                email
+                password
+          response:
+            statusCode: 201
+            body:
+                userId
+                accessToken
+            cookie:
+                refreshToken
+          
+      - register:
+          path: '/auth/register'
+          method: POST
+          request:
+            body:
+                firstName
+                lastName
+                email
+                password
+          response:
+            statusCode: 201
+            body:
+                userId
+                accessToken
+            cookie:
+                refreshToken
+            failed:
+              statusCode: 400, 409
+      
+      - logout:
+          path: '/auth/logout'
+          method: POST
+          response:
+            statusCode: 200
+            body:
+                message # cookie cleared
+
+      - refreshToken:
+          path: 'auth/refresh-token'
+          method: POST
+          cookie:
+              refreshToken
+          response:
+            statusCode: 204
+            body:
+                message
+            failed:
+              statusCode: 401, 403, 
+
+      - userProfile:
+          path: 'auth/me/info'
+          method: 'GET'
+          response:
+              body:
+                  userId
+                  firstName
+                  lastName
+                  email
+                  role
+              statusCode: 200
+          failed:
+              statusCode: 401
+
