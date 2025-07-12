@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { M_USER } from '../../src/modules/auth/model/user.model.js';
-import { User } from '../../src/modules/auth/types.js';
+import { User } from '../../src/types/users.types.js';
 
 export function createUserDoc(data: Partial<M_USER> = {}): M_USER {
     const firstName = faker.person.firstName();

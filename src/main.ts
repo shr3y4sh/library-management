@@ -3,8 +3,9 @@ import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 // import cors from 'cors';
 import authRouter from './modules/auth/routes.js';
-import { logRequests } from './middlewares/loggers.js';
+import { logRequests } from './middlewares/loggers.middle.js';
 import helmet from 'helmet';
+import { errorHandler } from './middlewares/error.middle.js';
 
 config();
 
@@ -37,5 +38,7 @@ app.use(
 app.use((_req, res) => {
     res.status(404).json({ message: 'Not Found' });
 });
+
+app.use(errorHandler);
 
 export default app;

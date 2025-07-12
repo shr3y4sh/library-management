@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { verifyAccessToken } from '../modules/auth/services/tokens.service.js';
+import { verifyAccessToken } from '../modules/auth/services/tokens/verify.tokens.js';
 
 export async function authorizationHandler(
     req: Request,

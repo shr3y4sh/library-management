@@ -1,13 +1,11 @@
 import UserModel, { M_USER } from '../model/user.model.js';
-import { User } from '../types.js';
+import { User } from '../../../types/users.types.js';
 import { UserRepository } from './user.repo.js';
 
 export class MongooseRepoImpl implements UserRepository {
     constructor() {}
     findById = async (id: string): Promise<M_USER> => {
         const user = await UserModel.findById(id);
-
-        // console.log(user);
 
         return user;
     };

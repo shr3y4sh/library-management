@@ -18,3 +18,8 @@ export interface User extends RegisterBody {
     id?: string;
     role: 'USER' | 'ADMIN';
 }
+export interface JwtPayload {
+    email: string;
+    id: string;
+    role: string;
+}

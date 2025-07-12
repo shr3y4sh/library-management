@@ -1,5 +1,5 @@
 import { M_USER } from '../model/user.model.js';
-import { User } from '../types.js';
+import { User } from '../../../types/users.types.js';
 import { MongooseRepoImpl } from './mongoose.repo.js';
 
 export interface UserRepository {
@@ -10,6 +10,6 @@ export interface UserRepository {
     findById: (id: string) => Promise<M_USER>;
 }
 
-const userRepo: UserRepository = new MongooseRepoImpl();
+const UserRepo: UserRepository = new MongooseRepoImpl();
 
-export default userRepo;
+export default UserRepo;
