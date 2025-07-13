@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { LoginSchema, RegistrationSchema } from '../types/users.types.js';
 import ValidationError from '../errors/zod.error.js';
 
-export function registerBodyValidation(
+function registerBodyValidation(
     req: Request,
     _res: Response,
     next: NextFunction,
@@ -22,7 +22,7 @@ export function registerBodyValidation(
     }
 }
 
-export function loginBodyValidation(
+function loginBodyValidation(
     req: Request,
     _res: Response,
     next: NextFunction,
@@ -40,3 +40,8 @@ export function loginBodyValidation(
         next(err);
     }
 }
+
+export default {
+    loginBodyValidation,
+    registerBodyValidation,
+};

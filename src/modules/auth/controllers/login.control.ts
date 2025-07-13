@@ -2,12 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 
 import { REFRESH_COOKIE_OPTIONS } from '../../../config/cookie.config.js';
 import { LoginBody } from '../../../types/users.types.js';
-import { userLogin } from '../services/users/login.service.js';
-import {
-    generateAccToken,
-    generateRefToken,
-} from '../services/tokens/generate.tokens.js';
+import TokenService from '../services/tokens/index.js';
+import UserService from '../services/users/index.js';
 
+//
 export async function login(
     req: Request<unknown, unknown, LoginBody>,
     res: Response,
@@ -16,18 +14,25 @@ export async function login(
     const { email, password } = req.body;
 
     try {
-        const user = await userLogin({ email, password });
-        const refreshToken = generateRefToken(user.email, user.id, 'USER');
+        const user = await UserService.userLogin({ email, password });
+        const refreshToken = TokenService.generateRefToken(
+            user.email,
+            user.id,
+            'USER',
+        );
 
         res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_OPTIONS);
 
-        const accessToken = generateAccToken(user.email, user.id, 'USER');
+        const accessToken = TokenService.generateAccToken(
+            user.email,
+            user.id,
+            'USER',
+        );
 
         res.status(201).json({
             userId: user.id,
             accessToken,
         });
-        return;
     } catch (err) {
         next(err);
     }

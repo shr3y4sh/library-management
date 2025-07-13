@@ -5,6 +5,7 @@ const REF_TOKEN_KEY =
 const ACC_TOKEN_KEY =
     process.env.JWT_ACCESS_SECRET || 'jwt_access_token_secret_key_alpha';
 
+//
 export function generateRefToken(
     email: string,
     id: string,
@@ -15,6 +16,7 @@ export function generateRefToken(
     });
 }
 
+//
 export function generateAccToken(
     email: string,
     id: string,

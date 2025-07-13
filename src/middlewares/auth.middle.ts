@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { verifyAccessToken } from '../modules/auth/services/tokens/verify.tokens.js';
+import TokenService from '../modules/auth/services/tokens/index.js';
 
+//
 export async function authorizationHandler(
     req: Request,
     res: Response,
@@ -16,7 +17,7 @@ export async function authorizationHandler(
     const accessToken = authorization.split(' ')[1];
 
     try {
-        const verification = verifyAccessToken(accessToken);
+        const verification = TokenService.verifyAccessToken(accessToken);
 
         const { id, role } = verification;
 
@@ -33,6 +34,7 @@ export async function authorizationHandler(
     }
 }
 
+//
 export function adminValidation(
     req: Request,
     res: Response,

@@ -1,11 +1,12 @@
 import { Document, model, Schema } from 'mongoose';
+import { User } from '../../../types/users.types.js';
 
-export interface M_USER extends Document {
-    firstName: string;
-    lastName: string;
-    email: string;
+export interface M_USER
+    extends Document,
+        Omit<User, 'id' | 'password' | 'borrowedBooks'> {
     passwordHash: string;
     role: 'USER' | 'ADMIN';
+    borrowedBooks: Array<Schema.Types.ObjectId>;
 }
 
 const userSchema = new Schema<M_USER>(
@@ -24,12 +25,15 @@ const userSchema = new Schema<M_USER>(
             type: 'String',
             required: true,
         },
+        borrowedBooks: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Book',
+            },
+        ],
     },
     {
-        timestamps: {
-            createdAt: true,
-            updatedAt: true,
-        },
+        timestamps: true,
     },
 );
 

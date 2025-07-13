@@ -2,10 +2,10 @@ import supertest from 'supertest';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import app from '../../../src/main.js';
 import { faker } from '@faker-js/faker';
-import * as RegisterService from '../../../src/modules/auth/services/user.service.js';
-import * as TokenService from '../../../src/modules/auth/services/tokens.service.js';
-import { MongooseError } from 'mongoose';
+import UserService from '../../../src/modules/auth/services/users/index.js';
+import TokenService from '../../../src/modules/auth/services/tokens/index.js';
 import { createUserObject } from '../../factories/user.factory.js';
+import { ConflictError } from '../../../src/errors/mongoose.error.js';
 
 describe('for /api/v1/auth', () => {
     beforeEach(() => {
@@ -22,11 +22,12 @@ describe('for /api/v1/auth', () => {
     });
 
     it('should return 201 on success', async () => {
-        vi.spyOn(RegisterService, 'userRegister').mockResolvedValueOnce({
+        vi.spyOn(UserService, 'userRegister').mockResolvedValueOnce({
             firstName,
             lastName,
             email,
             id,
+            role: 'USER',
             password: null,
         });
 
@@ -53,8 +54,8 @@ describe('for /api/v1/auth', () => {
     });
 
     it('should return 409 if user already exists', async () => {
-        vi.spyOn(RegisterService, 'userRegister').mockRejectedValueOnce(
-            new MongooseError('User already exists'),
+        vi.spyOn(UserService, 'userRegister').mockRejectedValueOnce(
+            new ConflictError('User already exists'),
         );
 
         const res = await supertest(app).post('/api/v1/auth/register').send({
@@ -65,11 +66,11 @@ describe('for /api/v1/auth', () => {
         });
 
         expect(res.status).toBe(409);
-        expect(res.body.message).toContain('Conflict Error');
+        expect(res.body.message).toContain('Conflict, data');
     });
 
     it('should return 500 on unknown error', async () => {
-        vi.spyOn(RegisterService, 'userRegister').mockRejectedValueOnce(
+        vi.spyOn(UserService, 'userRegister').mockRejectedValueOnce(
             new Error('Unexpected'),
         );
 
@@ -95,6 +96,6 @@ describe('for /api/v1/auth', () => {
 
         expect(response.status).toEqual(400);
         expect(response.body).toHaveProperty('message');
-        expect(response.body.message).toMatch(/Invalid request/);
+        expect(response.body.message).toMatch(/Invalid email/);
     });
 });

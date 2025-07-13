@@ -17,6 +17,7 @@ export type LoginBody = zod.infer<typeof LoginSchema>;
 export interface User extends RegisterBody {
     id?: string;
     role: 'USER' | 'ADMIN';
+    // borrowedBooks: Array<Book>;
 }
 export interface JwtPayload {
     email: string;

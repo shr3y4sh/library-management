@@ -1,12 +1,9 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import 'dotenv/config';
 import mongoose from 'mongoose';
 import { afterAll, beforeAll, beforeEach } from 'vitest';
 
-let mongo: MongoMemoryServer;
-
 beforeAll(async () => {
-    mongo = await MongoMemoryServer.create();
-    const uri = mongo.getUri();
+    const uri = process.env.TEST_DATABASE_URI;
     await mongoose.connect(uri);
 });
 
@@ -19,5 +16,4 @@ beforeEach(async () => {
 
 afterAll(async () => {
     await mongoose.connection.close();
-    await mongo.stop();
 });

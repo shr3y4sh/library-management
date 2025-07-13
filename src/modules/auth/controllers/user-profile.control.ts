@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { MongooseError } from 'mongoose';
-import { getUserData } from '../services/users/user-profile.service.js';
+import UserService from '../services/users/index.js';
 
 export async function userProfile(
     req: Request,
@@ -9,7 +9,7 @@ export async function userProfile(
 ): Promise<void> {
     try {
         const { id } = req.user;
-        const user = await getUserData(id);
+        const user = await UserService.userProfile(id);
 
         if (!user) {
             throw new MongooseError('Not found');
