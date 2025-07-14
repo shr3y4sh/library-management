@@ -3,6 +3,7 @@ import { Error, MongooseError } from 'mongoose';
 import { ConflictError } from '../errors/mongoose.error.js';
 import jwt from 'jsonwebtoken';
 import ValidationError from '../errors/zod.error.js';
+import HttpError from '../errors/custom.error.js';
 
 export function errorHandler(
     err: unknown,
@@ -12,6 +13,11 @@ export function errorHandler(
     _next: NextFunction,
 ): void {
     console.log(`ERROR: ${req.originalUrl}`, err);
+
+    if (err instanceof HttpError) {
+        res.status(err.statusCode).json({ message: err.message });
+        return;
+    }
 
     // Mongoose Errors
     if (err instanceof MongooseError) {

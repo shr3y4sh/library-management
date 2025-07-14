@@ -19,6 +19,7 @@ describe('for book repository implementations', () => {
     });
 
     const bookData = createBookObject();
+
     it('should create a book', async () => {
         const newBook = await BookRepo.createBook(bookData);
 

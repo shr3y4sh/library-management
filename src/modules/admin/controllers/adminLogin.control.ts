@@ -16,7 +16,7 @@ export async function adminLogin(
         const admin = await UserService.userLogin(adminData);
 
         if (admin.role !== 'ADMIN') {
-            throw new HttpError('Forbidden', 403);
+            throw new HttpError('Forbidden route, contact admin', 403);
         }
 
         const { email, id } = admin;
