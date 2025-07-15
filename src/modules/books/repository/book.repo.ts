@@ -6,6 +6,8 @@ export interface BookRepository {
     createBook: (bookData: BookDetails) => Promise<M_BOOK>;
 
     findBookByName: (name: string) => Promise<M_BOOK>;
+
+    getAllBooks: () => Promise<Array<M_BOOK>>;
 }
 
 const BookRepo: BookRepository = new MongooseBookImpl();

@@ -12,4 +12,9 @@ export default class MongooseBookImpl implements BookRepository {
     findBookByName = async (name: string): Promise<M_BOOK> => {
         return await BookModel.findOne({ title: name });
     };
+
+    getAllBooks = async (): Promise<Array<M_BOOK>> => {
+        const books = await BookModel.find({});
+        return books;
+    };
 }
